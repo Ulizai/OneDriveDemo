@@ -1,0 +1,10 @@
+.vs/
+BaseUWP/obj/
+BaseUWP/bin/
+OneDriveFacadeUWP/bin/
+OneDriveFacadeUWP/obj/
+OneDriveSimpleSample.Data/bin/
+OneDriveSimpleSample.Data/obj/
+OneDriveSimpleSample.Univ/bin/
+OneDriveSimpleSample.Univ/obj/
+UpgradeLog.htm
