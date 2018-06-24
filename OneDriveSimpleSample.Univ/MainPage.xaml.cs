@@ -23,12 +23,13 @@ namespace OneDriveSimpleSample
         private static string _downloadFilePath;
         private static string _folderPath;
         private readonly OneDriveService _service = ((App)Application.Current).ServiceInstance;
+        private readonly OneDriveFacadeUWP.OneDriveStorage _oneDriveStorage;
         private string _savedId;
 
         public MainPage()
         {
             InitializeComponent();
-
+            _oneDriveStorage = new OneDriveFacadeUWP.OneDriveStorage();
             var navManager = SystemNavigationManager.GetForCurrentView();
             navManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
@@ -52,23 +53,13 @@ namespace OneDriveSimpleSample
         {
             ShowBusy(true);
 
-            if (!_service.CheckAuthenticate(
-                async () =>
-                {
-                    var dialog = new MessageDialog("You are authenticated!", "Success!");
-                    await dialog.ShowAsync();
-                    ShowBusy(false);
-                    Frame.GoBack();
-                },
-                async () =>
-                {
-                    var dialog = new MessageDialog("Problem when authenticating!", "Sorry!");
-                    await dialog.ShowAsync();
-                    ShowBusy(false);
-                    Frame.GoBack();
-                }))
+            if (!_oneDriveStorage.IsConnected()) 
             {
-                Frame.Navigate(typeof(AuthenticationPage), _service);    
+                Frame.Navigate(typeof(OneDriveFacadeUWP.AuthenticationPage), _oneDriveStorage);    
+            }else
+            {
+                var dialog = new MessageDialog("You are authenticated!", "Success!");
+                await dialog.ShowAsync();
             }
         }
 
@@ -347,7 +338,7 @@ namespace OneDriveSimpleSample
 
             try
             {
-                await _service.Logout();
+                _oneDriveStorage.LogOut();
             }
             catch (Exception ex)
             {

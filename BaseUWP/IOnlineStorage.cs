@@ -8,8 +8,8 @@ namespace Base
 {
     public interface IOnlineStorage : IStorage
     {
-        bool LogIn();
+        bool LogIn(Windows.UI.Xaml.Controls.WebView webView, Windows.UI.Xaml.Controls.Frame parentFrame);
         bool IsConnected();
-        bool LogOut();
+        void LogOut();
     }
 }
